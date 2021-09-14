@@ -3,15 +3,35 @@ import io from "socket.io-client";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import RadioBinaryButton from "./RadioBinaryButton";
+import {
+  Input,
+  Text,
+  Heading,
+  Radio,
+  RadioGroup,
+  Stack,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Box,
+  VStack,
+  StackDivider,
+} from "@chakra-ui/react";
+
 import { Palette } from "./Palette";
 import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage.js";
 
-const palettes = require("nice-color-palettes/200");
+import { About } from "./About";
 
+const palettes = require("nice-color-palettes/200");
 let socket; // keep it over multiple renders.  TODO: why not state variable?
 
 toast.configure();
+
 function Palettes(props) {
   const [shouldExportAsHexCodes, setShouldExportAsHexCodes] = useState(true);
   const [socketioDestURL, setSocketioDestURL] = useStateWithLocalStorage(
@@ -20,7 +40,7 @@ function Palettes(props) {
 
   useEffect(() => {
     if (!socketioDestURL || socketioDestURL.length <= 4) {
-      return; // no cleanup fn needed in this case.
+      return; // no cleanup fn needed on unmount.
     }
     socket = io.connect(socketioDestURL);
 
@@ -46,44 +66,62 @@ function Palettes(props) {
 
   return (
     <div>
-      <h1>Nice Colours</h1>
-      <p>
-        Top palettes from ColourLovers, via Matt Deslauriers'{" "}
-        <a href="https://github.com/Jam3/nice-color-palettes">
-          https://github.com/Jam3/nice-color-palettes
-        </a>
-      </p>
-      <p>Click any palette to copy it to clipboard (as JavaScript).</p>
-      <div>
-        Socket.io destination address:
-        <input
-          type="text"
-          id="socketIODest"
-          value={socketioDestURL}
-          onChange={(ev) => setSocketioDestURL(ev.target.value)}
-          placeholder="socket.io dest addr"
-        />
-      </div>
-      Export as...{" "}
-      <RadioBinaryButton
-        groupName="exportMode"
-        nameOn="Hex Codes"
-        nameOff="color(r,g,b) array"
-        current={shouldExportAsHexCodes}
-        changeHandler={setShouldExportAsHexCodes}
-      />
-      <div>
-        See also{" "}
-        <a href="https://chromotome-quicker.netlify.app/">
-          chromotome-quicker.netlify.app
-        </a>{" "}
-        for KGolid's fantastic palettes.
-      </div>
+      <About />
+      <Text>Click any palette to copy it to clipboard.</Text>
       <div className="palettes">
         {palettes.map((p, ix) => (
           <Palette key={ix} palette={p} handleOnClick={handlePaletteClicked} />
         ))}
       </div>
+      <Drawer
+        isOpen={props.isSettingsOpen}
+        placement="bottom"
+        onClose={props.onCloseSettings}
+        finalFocusRef={props.btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Settings</DrawerHeader>
+
+          <DrawerBody>
+            <VStack
+              align={"flex-start"}
+              spacing={6}
+              divider={<StackDivider borderColor="gray.200" />}
+            >
+              <Box>
+                <Heading size="md"> Copy to clipboard as:</Heading>
+
+                <RadioGroup
+                  onChange={(v) => {
+                    setShouldExportAsHexCodes(v === "true");
+                  }}
+                  value={shouldExportAsHexCodes}
+                >
+                  <Stack direction="row">
+                    <Radio value={true}>Hex Codes</Radio>
+                    <Radio value={false}>color(r,g,b) array</Radio>
+                  </Stack>
+                </RadioGroup>
+              </Box>
+              <Box>
+                <Heading size="md">Socket.io destination address:</Heading>
+                <Input
+                  type="text"
+                  variant="outline"
+                  w={500}
+                  value={socketioDestURL}
+                  onChange={(ev) => setSocketioDestURL(ev.target.value)}
+                  placeholder="socket.io dest addr"
+                />
+              </Box>
+            </VStack>
+          </DrawerBody>
+
+          <DrawerFooter></DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }
