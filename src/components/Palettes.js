@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import useStateWithLocalStorage from "../useStateWithLocalStorage.js";
-import { toast } from "react-toastify";
 import io from "socket.io-client";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import RadioBinaryButton from "./RadioBinaryButton";
 import { Palette } from "./Palette";
+import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage.js";
 
 const palettes = require("nice-color-palettes/200");
 
