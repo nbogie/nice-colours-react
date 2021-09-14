@@ -19,6 +19,8 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Box,
+  VStack,
+  StackDivider,
 } from "@chakra-ui/react";
 
 import { Palette } from "./Palette";
@@ -92,29 +94,37 @@ function Palettes(props) {
           <DrawerHeader>Settings</DrawerHeader>
 
           <DrawerBody>
-            <Box>
-              <Heading size="md"> Export type:</Heading>
+            <VStack
+              align={"flex-start"}
+              spacing={6}
+              divider={<StackDivider borderColor="gray.200" />}
+            >
+              <Box>
+                <Heading size="md"> Export type:</Heading>
 
-              <RadioGroup
-                onChange={(v) => {
-                  setShouldExportAsHexCodes(v === "true");
-                }}
-                value={shouldExportAsHexCodes}
-              >
-                <Stack direction="row">
-                  <Radio value={true}>Hex Codes</Radio>
-                  <Radio value={false}>color(r,g,b) array</Radio>
-                </Stack>
-              </RadioGroup>
-            </Box>
-            <Heading size="md">Socket.io destination address:</Heading>
-            <Input
-              type="text"
-              variant="outline"
-              value={socketioDestURL}
-              onChange={(ev) => setSocketioDestURL(ev.target.value)}
-              placeholder="socket.io dest addr"
-            />
+                <RadioGroup
+                  onChange={(v) => {
+                    setShouldExportAsHexCodes(v === "true");
+                  }}
+                  value={shouldExportAsHexCodes}
+                >
+                  <Stack direction="row">
+                    <Radio value={true}>Hex Codes</Radio>
+                    <Radio value={false}>color(r,g,b) array</Radio>
+                  </Stack>
+                </RadioGroup>
+              </Box>
+              <Box>
+                <Heading size="md">Socket.io destination address:</Heading>
+                <Input
+                  type="text"
+                  variant="outline"
+                  value={socketioDestURL}
+                  onChange={(ev) => setSocketioDestURL(ev.target.value)}
+                  placeholder="socket.io dest addr"
+                />
+              </Box>
+            </VStack>
           </DrawerBody>
 
           <DrawerFooter></DrawerFooter>
