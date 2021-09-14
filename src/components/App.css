@@ -1,6 +1,7 @@
 .palettes {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .palette {
   margin: 20px;
