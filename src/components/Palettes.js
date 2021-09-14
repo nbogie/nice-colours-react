@@ -3,20 +3,43 @@ import io from "socket.io-client";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import RadioBinaryButton from "./RadioBinaryButton";
+import {
+  useDisclosure,
+  Input,
+  Heading,
+  Button,
+  Radio,
+  RadioGroup,
+  Stack,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Box,
+} from "@chakra-ui/react";
+
 import { Palette } from "./Palette";
 import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage.js";
 
-const palettes = require("nice-color-palettes/200");
+import SeeAlso from "./SeeAlso";
+import { About } from "./About";
 
+const palettes = require("nice-color-palettes/200");
 let socket; // keep it over multiple renders.  TODO: why not state variable?
 
 toast.configure();
+
 function Palettes(props) {
   const [shouldExportAsHexCodes, setShouldExportAsHexCodes] = useState(true);
   const [socketioDestURL, setSocketioDestURL] = useStateWithLocalStorage(
     "nice-colours-socketio-dest"
   );
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  //I think this is just for focus when the drawer closes.
+  const btnRef = React.useRef();
 
   useEffect(() => {
     if (!socketioDestURL || socketioDestURL.length <= 4) {
@@ -46,44 +69,57 @@ function Palettes(props) {
 
   return (
     <div>
-      <h1>Nice Colours</h1>
-      <p>
-        Top palettes from ColourLovers, via Matt Deslauriers'{" "}
-        <a href="https://github.com/Jam3/nice-color-palettes">
-          https://github.com/Jam3/nice-color-palettes
-        </a>
-      </p>
+      <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
+        Settings
+      </Button>
+      <About />
       <p>Click any palette to copy it to clipboard (as JavaScript).</p>
-      <div>
-        Socket.io destination address:
-        <input
-          type="text"
-          id="socketIODest"
-          value={socketioDestURL}
-          onChange={(ev) => setSocketioDestURL(ev.target.value)}
-          placeholder="socket.io dest addr"
-        />
-      </div>
-      Export as...{" "}
-      <RadioBinaryButton
-        groupName="exportMode"
-        nameOn="Hex Codes"
-        nameOff="color(r,g,b) array"
-        current={shouldExportAsHexCodes}
-        changeHandler={setShouldExportAsHexCodes}
-      />
-      <div>
-        See also{" "}
-        <a href="https://chromotome-quicker.netlify.app/">
-          chromotome-quicker.netlify.app
-        </a>{" "}
-        for KGolid's fantastic palettes.
-      </div>
+      <SeeAlso />
       <div className="palettes">
         {palettes.map((p, ix) => (
           <Palette key={ix} palette={p} handleOnClick={handlePaletteClicked} />
         ))}
       </div>
+      <Drawer
+        isOpen={isOpen}
+        placement="bottom"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Settings</DrawerHeader>
+
+          <DrawerBody>
+            <Box>
+              <Heading size="md"> Export type:</Heading>
+
+              <RadioGroup
+                onChange={(v) => {
+                  setShouldExportAsHexCodes(v === "true");
+                }}
+                value={shouldExportAsHexCodes}
+              >
+                <Stack direction="row">
+                  <Radio value={true}>Hex Codes</Radio>
+                  <Radio value={false}>color(r,g,b) array</Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+            <Heading size="md">Socket.io destination address:</Heading>
+            <Input
+              type="text"
+              variant="outline"
+              value={socketioDestURL}
+              onChange={(ev) => setSocketioDestURL(ev.target.value)}
+              placeholder="socket.io dest addr"
+            />
+          </DrawerBody>
+
+          <DrawerFooter></DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }
