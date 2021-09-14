@@ -1,19 +1,45 @@
 import * as React from "react";
 import "./App.css";
 import Palettes from "./Palettes.js";
-import { VStack, Center, Heading, Container } from "@chakra-ui/react";
+import {
+  Flex,
+  VStack,
+  Heading,
+  Container,
+  IconButton,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import SmallCenteredFooter from "./Footer";
 
 function App() {
+  //This is just for focus when the drawer closes.
+  const btnRef = React.useRef();
+  const { isOpen, onClose, onToggle } = useDisclosure();
+
   return (
     <Container maxW={1000}>
-      <Center>
-        <VStack>
-          <Heading>Nice Colours, Quicker!</Heading>
-          <Palettes />
-          <SmallCenteredFooter />
-        </VStack>
-      </Center>
+      {/* Title Bar with settings hamburger icon */}
+      <Flex flexDirection={"row"} w={"100%"}>
+        <Heading align={"center"} width={"100%"}>
+          Nice colours, quicker!
+        </Heading>
+        <IconButton
+          onClick={onToggle}
+          ref={btnRef}
+          icon={<HamburgerIcon w={7} h={7} />}
+          variant={"ghost"}
+          aria-label={"Toggle Settings"}
+        />
+      </Flex>
+      <VStack>
+        <Palettes
+          btnRef={btnRef}
+          isSettingsOpen={isOpen}
+          onCloseSettings={onClose}
+        />
+        <SmallCenteredFooter />
+      </VStack>
     </Container>
   );
 }

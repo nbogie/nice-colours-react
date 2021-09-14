@@ -4,10 +4,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
-  useDisclosure,
   Input,
+  Text,
   Heading,
-  Button,
   Radio,
   RadioGroup,
   Stack,
@@ -26,7 +25,6 @@ import {
 import { Palette } from "./Palette";
 import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage.js";
 
-import SeeAlso from "./SeeAlso";
 import { About } from "./About";
 
 const palettes = require("nice-color-palettes/200");
@@ -39,13 +37,10 @@ function Palettes(props) {
   const [socketioDestURL, setSocketioDestURL] = useStateWithLocalStorage(
     "nice-colours-socketio-dest"
   );
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  //I think this is just for focus when the drawer closes.
-  const btnRef = React.useRef();
 
   useEffect(() => {
     if (!socketioDestURL || socketioDestURL.length <= 4) {
-      return; // no cleanup fn needed in this case.
+      return; // no cleanup fn needed on unmount.
     }
     socket = io.connect(socketioDestURL);
 
@@ -71,22 +66,18 @@ function Palettes(props) {
 
   return (
     <div>
-      <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
-        Settings
-      </Button>
       <About />
-      <p>Click any palette to copy it to clipboard (as JavaScript).</p>
-      <SeeAlso />
+      <Text>Click any palette to copy it to clipboard.</Text>
       <div className="palettes">
         {palettes.map((p, ix) => (
           <Palette key={ix} palette={p} handleOnClick={handlePaletteClicked} />
         ))}
       </div>
       <Drawer
-        isOpen={isOpen}
+        isOpen={props.isSettingsOpen}
         placement="bottom"
-        onClose={onClose}
-        finalFocusRef={btnRef}
+        onClose={props.onCloseSettings}
+        finalFocusRef={props.btnRef}
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -100,7 +91,7 @@ function Palettes(props) {
               divider={<StackDivider borderColor="gray.200" />}
             >
               <Box>
-                <Heading size="md"> Export type:</Heading>
+                <Heading size="md"> Copy to clipboard as:</Heading>
 
                 <RadioGroup
                   onChange={(v) => {
@@ -119,6 +110,7 @@ function Palettes(props) {
                 <Input
                   type="text"
                   variant="outline"
+                  w={500}
                   value={socketioDestURL}
                   onChange={(ev) => setSocketioDestURL(ev.target.value)}
                   placeholder="socket.io dest addr"
