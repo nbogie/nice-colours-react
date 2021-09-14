@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import io from "socket.io-client";
 import "react-toastify/dist/ReactToastify.css";
 import RadioBinaryButton from "./RadioBinaryButton";
+import { Palette } from "./Palette";
 
 const palettes = require("nice-color-palettes/200");
 
@@ -11,7 +12,7 @@ let socket; // keep it over multiple renders.  TODO: why not state variable?
 
 toast.configure();
 function Palettes(props) {
-  const [exportAsHexCodes, setExportAsHexCodes] = useState(true);
+  const [shouldExportAsHexCodes, setShouldExportAsHexCodes] = useState(true);
   const [socketioDestURL, setSocketioDestURL] = useStateWithLocalStorage(
     "nice-colours-socketio-dest"
   );
@@ -36,6 +37,7 @@ function Palettes(props) {
   }, [socketioDestURL]);
 
   const handlePaletteClicked = (palette) => {
+    copyAndNotify(palette, shouldExportAsHexCodes);
     if (socket && socket.connected) {
       socket.emit("palette_chosen", palette);
     }
@@ -66,8 +68,8 @@ function Palettes(props) {
         groupName="exportMode"
         nameOn="Hex Codes"
         nameOff="color(r,g,b) array"
-        current={exportAsHexCodes}
-        changeHandler={setExportAsHexCodes}
+        current={shouldExportAsHexCodes}
+        changeHandler={setShouldExportAsHexCodes}
       />
       <div>
         See also{" "}
@@ -78,20 +80,15 @@ function Palettes(props) {
       </div>
       <div className="palettes">
         {palettes.map((p, ix) => (
-          <Palette
-            key={ix}
-            palette={p}
-            exportAsHexCodes={exportAsHexCodes}
-            handleOnClick={handlePaletteClicked}
-          />
+          <Palette key={ix} palette={p} handleOnClick={handlePaletteClicked} />
         ))}
       </div>
     </div>
   );
 }
 
-function copyPaletteToClipboardAsJSON(palette, exportAsHexCodes) {
-  const text = exportAsHexCodes
+function copyPaletteToClipboardAsJSON(palette, shouldExportAsHexCodes) {
+  const text = shouldExportAsHexCodes
     ? JSON.stringify(palette, null, 2)
     : paletteToKhanAcademyCode(palette);
   navigator.clipboard.writeText(text);
@@ -109,8 +106,8 @@ function paletteToKhanAcademyCode(palette) {
   );
 }
 
-function copyAndNotify(palette, exportAsHexCodes) {
-  copyPaletteToClipboardAsJSON(palette, exportAsHexCodes);
+export function copyAndNotify(palette, shouldExportAsHexCodes) {
+  copyPaletteToClipboardAsJSON(palette, shouldExportAsHexCodes);
 
   //https://fkhadra.github.io/react-toastify/api/toast
   toast("Copied palette to clipboard!", {
@@ -120,30 +117,6 @@ function copyAndNotify(palette, exportAsHexCodes) {
     pauseOnHover: true,
     style: toastStyleForPalette(palette),
   });
-}
-
-function Palette({ palette, exportAsHexCodes, handleOnClick }) {
-  return (
-    <div
-      className="palette"
-      onClick={() => {
-        copyAndNotify(palette, exportAsHexCodes);
-        handleOnClick(palette);
-      }}
-    >
-      {palette.map((colourHex, ix) => (
-        <Colour key={ix} colourHex={colourHex} />
-      ))}
-    </div>
-  );
-}
-function Colour({ colourHex }) {
-  // const rgbString = rgbToString(hexToRGB(colourHex));
-  return (
-    <div className="colour" style={{ background: colourHex }}>
-      {/* <span className="hex">{colourHex}</span> <span className="rgb">{rgbString}</span> */}
-    </div>
-  );
 }
 
 function hexToRGB(hex) {
