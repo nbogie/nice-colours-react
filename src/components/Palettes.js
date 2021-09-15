@@ -28,6 +28,10 @@ import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage.js";
 
 import { About } from "./About";
 import PossibleOpenProcessingSketchLink from "../PossibleOpenProcessingSketchLink";
+import {
+  buildOpenProcessingSocketIODest,
+  tryToExtractSketchNumberFromLocationHash,
+} from "../openProcessing";
 
 const palettes = require("nice-color-palettes/200");
 let socket; // keep it over multiple renders.  TODO: why not state variable?
@@ -39,6 +43,13 @@ function Palettes(props) {
   const [socketioDestURL, setSocketioDestURL] = useStateWithLocalStorage(
     "nice-colours-socketio-dest"
   );
+
+  useEffect(() => {
+    const sketchNumber = tryToExtractSketchNumberFromLocationHash();
+    if (sketchNumber) {
+      setSocketioDestURL(buildOpenProcessingSocketIODest(sketchNumber));
+    }
+  }, [setSocketioDestURL]);
 
   useEffect(() => {
     if (!socketioDestURL || socketioDestURL.length <= 4) {
