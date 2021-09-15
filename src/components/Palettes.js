@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   Input,
   Text,
+  Button,
   Heading,
   Radio,
   RadioGroup,
@@ -39,6 +40,7 @@ let socket; // keep it over multiple renders.  TODO: why not state variable?
 toast.configure();
 
 function Palettes(props) {
+  const [palettesToShow, setPalettesToShow] = useState(palettes);
   const [shouldExportAsHexCodes, setShouldExportAsHexCodes] = useState(true);
   const [socketioDestURL, setSocketioDestURL] = useStateWithLocalStorage(
     "nice-colours-socketio-dest"
@@ -70,6 +72,12 @@ function Palettes(props) {
     };
   }, [socketioDestURL]);
 
+  const handleShuffleClicked = () => {
+    setPalettesToShow(
+      [...palettes].sort((a, b) => (Math.random() < 0.5 ? -1 : 1))
+    );
+  };
+
   const handlePaletteClicked = (palette) => {
     copyAndNotify(palette, shouldExportAsHexCodes);
     if (socket && socket.connected) {
@@ -79,13 +87,22 @@ function Palettes(props) {
 
   return (
     <div>
-      <About />
-      <Text>Click any palette to copy it to clipboard.</Text>
-      <div className="palettes">
-        {palettes.map((p, ix) => (
-          <Palette key={ix} palette={p} handleOnClick={handlePaletteClicked} />
-        ))}
-      </div>
+      <VStack align="flex-start">
+        <About />
+        <Text>Click any palette to copy it to clipboard.</Text>
+        <Button onClick={handleShuffleClicked} variant="solid">
+          Shuffle!
+        </Button>
+        <div className="palettes">
+          {palettesToShow.map((p, ix) => (
+            <Palette
+              key={ix}
+              palette={p}
+              handleOnClick={handlePaletteClicked}
+            />
+          ))}
+        </div>
+      </VStack>
       <Drawer
         isOpen={props.isSettingsOpen}
         placement="bottom"
