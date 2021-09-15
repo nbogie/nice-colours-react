@@ -3,9 +3,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
 
+import { extendTheme } from "@chakra-ui/react";
+import { themeOverride } from "./themeOverride";
+
 ReactDOM.render(
-  <ChakraProvider>
-    <App />{" "}
+  <ChakraProvider theme={extendTheme(themeOverride)}>
+    <App />
   </ChakraProvider>,
   document.getElementById("root")
 );
