@@ -1,14 +1,17 @@
+# What is it
+UI which presents top palettes from ColourLovers, via Matt Deslauriers' nice-color-palettes npm package, and allows user to very quickly get a representation of the palette into the clipboard ready for use in a JavaScript sketch and, optionally, transmitted using socket.io to another sketch.
+
+Deployed at https://nice-colours-quicker.netlify.app/
+
+
+# TODOs: a note to self
+GitHub Project has some suggested features: https://github.com/nbogie/nice-colours-react/projects
+
+
+# Standard Create-React-App docs
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Running on Repl.it
-
-Simply hit run once and start coding. Will hot reload the web view. 
-
-## Running Scripts
-
-You can open a new shell window by hitting command+shift+S on macOS or control+shift+S (you can also access shortcuts from the `?` in the bottom right corner).
-
-When in the shell you can run any of the following scripts:
 
 ### `yarn test`
 
