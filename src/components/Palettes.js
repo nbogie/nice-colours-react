@@ -27,7 +27,7 @@ import { Palette } from "./Palette";
 import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage.js";
 
 import { About } from "./About";
-import PossibleOpenProcessingSketchLink from "../PossibleOpenProcessingSketchLink";
+import PossibleOpenProcessingSketchLink from "./PossibleOpenProcessingSketchLink";
 import {
   buildOpenProcessingSocketIODest,
   tryToExtractSketchNumberFromLocationHash,

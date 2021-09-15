@@ -2,7 +2,7 @@ import { Link } from "@chakra-ui/react";
 import {
   parseOpenProcessingSocketIOLinkForSketchNumber,
   buildOpenProcessingSketchURL,
-} from "./openProcessing";
+} from "../openProcessing";
 
 /** Given a possible socketioDestURL string, make a Link to the corresponding openprocessing sketch, if it is an openprocessing destination.  Else, null.
  *
