@@ -24,11 +24,6 @@ export default function SmallCenteredFooter() {
           .
         </Text>
         <SeeAlso />
-        {/* <Stack direction={"row"} spacing={6}>
-          <Link href={"#"}>Home</Link>
-          <Link href={"#"}>About</Link>
-          <Link href={"#"}>Contact</Link>
-        </Stack> */}
       </Container>
     </Box>
   );
