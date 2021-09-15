@@ -14,10 +14,6 @@ export default function SmallCenteredFooter() {
       >
         <Text>
           Make your own version of this app, starting at{" "}
-          <Link href="https://repl.it/@NeillBogie/nice-colours" isExternal>
-            the repl.it
-          </Link>{" "}
-          or with{" "}
           <Link href="https://github.com/nbogie/nice-colours-react" isExternal>
             the repo on github
           </Link>
