@@ -89,7 +89,13 @@ function Palettes(props) {
     <div>
       <VStack align="flex-start">
         <About />
-        <Text>Click any palette to copy it to clipboard.</Text>
+        <Text>
+          Click any palette to copy it to clipboard (and optionally{" "}
+          <Button variant="link" onClick={props.onOpenSettings}>
+            send it elsewhere with socket.io!
+          </Button>
+          )
+        </Text>
         <Button onClick={handleShuffleClicked} variant="solid">
           Shuffle!
         </Button>

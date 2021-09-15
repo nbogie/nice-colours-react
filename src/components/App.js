@@ -15,7 +15,7 @@ import SmallCenteredFooter from "./Footer";
 function App() {
   //This is just for focus when the drawer closes.
   const btnRef = React.useRef();
-  const { isOpen, onClose, onToggle } = useDisclosure();
+  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   return (
     <Container maxW={1000}>
@@ -36,6 +36,7 @@ function App() {
         <Palettes
           btnRef={btnRef}
           isSettingsOpen={isOpen}
+          onOpenSettings={onOpen}
           onCloseSettings={onClose}
         />
         <SmallCenteredFooter />
