@@ -10,6 +10,8 @@ export const themeOverride = {
     Link: {
       baseStyle: {
         textDecorationLine: "underline",
+        // textDecorationThickness: "2px",
+        // textDecorationColor: "gray.400",
       },
     },
   },
