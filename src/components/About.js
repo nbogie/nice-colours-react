@@ -8,7 +8,10 @@ export function About() {
       <Link href="https://www.colourlovers.com/palettes" isExternal>
         ColourLovers
       </Link>
-      , via Matt Deslauriers'{" "}
+      , via{" "}
+      <Link href="https://www.mattdesl.com/" isExternal>
+        Matt Deslauriers'
+      </Link>{" "}
       <Link href="https://github.com/Jam3/nice-color-palettes" isExternal>
         nice-color-palettes npm package.
       </Link>
