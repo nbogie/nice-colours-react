@@ -19,6 +19,7 @@ import {
   DrawerCloseButton,
   Box,
   VStack,
+  HStack,
   StackDivider,
 } from "@chakra-ui/react";
 
@@ -26,6 +27,7 @@ import { Palette } from "./Palette";
 import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage.js";
 
 import { About } from "./About";
+import PossibleOpenProcessingSketchLink from "../PossibleOpenProcessingSketchLink";
 
 const palettes = require("nice-color-palettes/200");
 let socket; // keep it over multiple renders.  TODO: why not state variable?
@@ -107,14 +109,19 @@ function Palettes(props) {
               </Box>
               <Box>
                 <Heading size="md">Socket.io destination address:</Heading>
-                <Input
-                  type="text"
-                  variant="outline"
-                  w={500}
-                  value={socketioDestURL}
-                  onChange={(ev) => setSocketioDestURL(ev.target.value)}
-                  placeholder="socket.io dest addr"
-                />
+                <HStack>
+                  <Input
+                    type="text"
+                    variant="outline"
+                    w={500}
+                    value={socketioDestURL}
+                    onChange={(ev) => setSocketioDestURL(ev.target.value)}
+                    placeholder="socket.io dest addr"
+                  />
+                  <PossibleOpenProcessingSketchLink
+                    socketioDestURL={socketioDestURL}
+                  />
+                </HStack>
               </Box>
             </VStack>
           </DrawerBody>
