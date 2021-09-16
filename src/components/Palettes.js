@@ -22,6 +22,7 @@ import {
   VStack,
   HStack,
   StackDivider,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import { Palette } from "./Palette";
@@ -33,6 +34,7 @@ import {
   buildOpenProcessingSocketIODest,
   tryToExtractSketchNumberFromLocationHash,
 } from "../openProcessing";
+import { SocketIOHelpModal } from "./SocketIOHelpModal";
 
 const palettes = require("nice-color-palettes/200");
 let socket; // keep it over multiple renders.  TODO: why not state variable?
@@ -85,8 +87,12 @@ function Palettes(props) {
     }
   };
 
+  const socketIOHelpDisclosure = useDisclosure();
+
   return (
     <div>
+      <SocketIOHelpModal disclosure={socketIOHelpDisclosure} />
+
       <VStack align="flex-start">
         <About />
         <Text>
@@ -155,6 +161,9 @@ function Palettes(props) {
                   <PossibleOpenProcessingSketchLink
                     socketioDestURL={socketioDestURL}
                   />
+                  <Button onClick={socketIOHelpDisclosure.onOpen}>
+                    socket.io help
+                  </Button>
                 </HStack>
               </Box>
             </VStack>
