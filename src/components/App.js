@@ -18,7 +18,7 @@ function App() {
   const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   return (
-    <Container maxW={1000}>
+    <Container marginTop={2} maxW={1000}>
       {/* Title Bar with settings hamburger icon */}
       <Flex flexDirection={"row"} w={"100%"}>
         <Heading align={"center"} width={"100%"}>
