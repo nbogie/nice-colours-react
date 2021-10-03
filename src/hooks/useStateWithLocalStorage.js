@@ -1,9 +1,9 @@
 //https://www.robinwieruch.de/local-storage-react
 import { useState, useEffect } from "react";
 
-const useStateWithLocalStorage = (localStorageKey) => {
+const useStateWithLocalStorage = (localStorageKey, initialValue = "") => {
   const [value, setValue] = useState(
-    localStorage.getItem(localStorageKey) || ""
+    localStorage.getItem(localStorageKey) || initialValue
   );
 
   useEffect(() => {

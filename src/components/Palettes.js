@@ -43,7 +43,10 @@ toast.configure();
 
 function Palettes(props) {
   const [palettesToShow, setPalettesToShow] = useState(palettes);
-  const [shouldExportAsHexCodes, setShouldExportAsHexCodes] = useState(true);
+  const [exportFormat, setExportFormat] = useStateWithLocalStorage(
+    "format",
+    "json"
+  );
   const [socketioDestURL, setSocketioDestURL] = useStateWithLocalStorage(
     "nice-colours-socketio-dest"
   );
@@ -81,7 +84,7 @@ function Palettes(props) {
   };
 
   const handlePaletteClicked = (palette) => {
-    copyAndNotify(palette, shouldExportAsHexCodes);
+    copyAndNotify(palette, exportFormat);
     if (socket && socket.connected) {
       socket.emit("palette_chosen", palette);
     }
@@ -135,15 +138,11 @@ function Palettes(props) {
               <Box>
                 <Heading size="md"> Copy to clipboard as:</Heading>
 
-                <RadioGroup
-                  onChange={(v) => {
-                    setShouldExportAsHexCodes(v === "true");
-                  }}
-                  value={shouldExportAsHexCodes}
-                >
+                <RadioGroup onChange={setExportFormat} value={exportFormat}>
                   <Stack direction="row">
-                    <Radio value={true}>Hex Codes</Radio>
-                    <Radio value={false}>color(r,g,b) array</Radio>
+                    <Radio value={"json"}>Hex Codes (JS)</Radio>
+                    <Radio value={"khan"}>color(r,g,b) array (JS)</Radio>
+                    <Radio value={"unity"}>color(r,g,b) array (Unity)</Radio>
                   </Stack>
                 </RadioGroup>
               </Box>
@@ -176,10 +175,22 @@ function Palettes(props) {
   );
 }
 
-function copyPaletteToClipboardAsJSON(palette, shouldExportAsHexCodes) {
-  const text = shouldExportAsHexCodes
-    ? JSON.stringify(palette, null, 2)
-    : paletteToKhanAcademyCode(palette);
+function copyPaletteToClipboard(palette, format) {
+  let text;
+  switch (format) {
+    case "json":
+      text = JSON.stringify(palette, null, 2);
+      break;
+    case "khan":
+      text = paletteToKhanAcademyCode(palette);
+      break;
+    case "unity":
+      text = paletteToUnityCode(palette);
+      break;
+    default:
+      throw new Error("unrecognised export format: " + format);
+  }
+
   navigator.clipboard.writeText(text);
 }
 
@@ -194,9 +205,21 @@ function paletteToKhanAcademyCode(palette) {
     "\n ];"
   );
 }
+function paletteToUnityCode(palette) {
+  function hexCodeToRGBColorCall(hex) {
+    const { r: r255, g: g255, b: b255 } = hexToRGB(hex);
+    const [r, g, b] = [r255, g255, b255].map((v) => (v / 255).toFixed(3));
+    return `new Color(${r}f, ${g}f, ${b}f)`;
+  }
+  return (
+    "Color[] palette = new Color[] { \n" +
+    palette.map(hexCodeToRGBColorCall).join(",\n") +
+    "\n };"
+  );
+}
 
-export function copyAndNotify(palette, shouldExportAsHexCodes) {
-  copyPaletteToClipboardAsJSON(palette, shouldExportAsHexCodes);
+export function copyAndNotify(palette, exportFormat) {
+  copyPaletteToClipboard(palette, exportFormat);
 
   //https://fkhadra.github.io/react-toastify/api/toast
   toast("Copied palette to clipboard!", {
