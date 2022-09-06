@@ -1,17 +1,20 @@
 # What is it
-UI which presents top palettes from ColourLovers, via Matt Deslauriers' nice-color-palettes npm package, and allows user to very quickly get a representation of the palette into the clipboard ready for use in a JavaScript sketch and, optionally, transmitted using socket.io to another sketch.
+
+A UI which presents nice palettes and prioritises ease of transfer to clipboard for use in creative coding (e.g. into a p5.js sketch, or C# script for Unity).
+
+The palettes are top palettes from ColourLovers, via Matt Deslauriers' `nice-color-palettes` npm package.
+
+The app can also be easily configured to transmit selected palettes over socket.io to listening sketches.
 
 Deployed at https://nice-colours-quicker.netlify.app/
 
-
 # TODOs: a note to self
-GitHub Project has some suggested features: https://github.com/nbogie/nice-colours-react/projects
 
+GitHub Project has some suggested features: https://github.com/nbogie/nice-colours-react/projects
 
 # Standard Create-React-App docs
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 
 ### `yarn test`
 
