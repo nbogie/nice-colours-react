@@ -140,9 +140,10 @@ function Palettes(props) {
 
                 <RadioGroup onChange={setExportFormat} value={exportFormat}>
                   <Stack direction="row">
-                    <Radio value={"json"}>Hex Codes (JS)</Radio>
-                    <Radio value={"khan"}>color(r,g,b) array (JS)</Radio>
-                    <Radio value={"unity"}>color(r,g,b) array (Unity)</Radio>
+                    <Radio value={"json"}>Array of Hex Codes (JS)</Radio>
+                    <Radio value={"khan"}>Array of color(r,g,b) (JS)</Radio>
+                    <Radio value={"cssVars"}>CSS variables</Radio>
+                    <Radio value={"unity"}>Array of color(r,g,b) (Unity)</Radio>
                   </Stack>
                 </RadioGroup>
               </Box>
@@ -187,6 +188,9 @@ function copyPaletteToClipboard(palette, format) {
     case "unity":
       text = paletteToUnityCode(palette);
       break;
+    case "cssVars":
+      text = paletteToCSSVars(palette);
+      break;
     default:
       throw new Error("unrecognised export format: " + format);
   }
@@ -216,6 +220,14 @@ function paletteToUnityCode(palette) {
     palette.map(hexCodeToRGBColorCall).join(",\n") +
     "\n };"
   );
+}
+function paletteToCSSVars(palette) {
+  function hexCodeToCSSVar(hexCode, ix){
+    return `--pal-${ix+1}: ${hexCode};`;
+  }
+
+  const lines = palette.map((hexCode, ix) => hexCodeToCSSVar(hexCode, ix)).join("\n");
+  return `:root {\n${lines}\n}\n`;
 }
 
 export function copyAndNotify(palette, exportFormat) {
