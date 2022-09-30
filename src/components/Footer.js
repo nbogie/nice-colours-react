@@ -1,4 +1,6 @@
 import { Box, Container, Link, Stack, Text } from "@chakra-ui/react";
+import React from "react";
+import MadeWith from "./MadeWith";
 import SeeAlso from "./SeeAlso";
 
 export default function SmallCenteredFooter() {
@@ -20,6 +22,7 @@ export default function SmallCenteredFooter() {
           .
         </Text>
         <SeeAlso />
+        <MadeWith />
       </Container>
     </Box>
   );
