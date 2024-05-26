@@ -1,14 +1,11 @@
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import React from "react";
-import { createRoot } from "react-dom/client";
-import { ToastContainer } from "react-toastify";
+import ReactDOM from "react-dom/client";
 import App from "./components/App";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ToastContainer } from "react-toastify";
 import { themeOverride } from "./themeOverride";
 
-const container = document.getElementById("root") as HTMLElement;
-const root = createRoot(container);
-
-root.render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ChakraProvider theme={extendTheme(themeOverride)}>
             <ToastContainer />
