@@ -19,7 +19,7 @@ export function ChromotomePaletteView({
             {palette.colors.map((colourHex, ix) => (
                 <Colour key={ix} colourHex={colourHex} />
             ))}
-            <div>{palette.name}</div>
+            <div className="paletteName">{palette.name}</div>
         </div>
     );
 }
