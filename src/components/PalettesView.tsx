@@ -26,7 +26,7 @@ import {
 } from "@chakra-ui/react";
 
 import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage";
-import { PaletteView } from "./PaletteView";
+import { NicePaletteView } from "./NicePaletteView";
 
 import { paletteToCSSVars } from "../exporters/paletteToCSSVars";
 import { paletteToJSON } from "../exporters/paletteToJSON";
@@ -159,7 +159,7 @@ function PalettesView(props: PalettesViewProps) {
                                 handleOnClick={handlePaletteClicked}
                             />
                         ) : (
-                            <PaletteView
+                            <NicePaletteView
                                 key={ix}
                                 palette={p}
                                 handleOnClick={handlePaletteClicked}

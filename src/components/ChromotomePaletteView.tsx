@@ -18,11 +18,11 @@ export function ChromotomePaletteView({
         >
             <div
                 className="chromotomePaletteMain"
-                style={{ background: palette.background ?? "white" }}
+                style={{ background: palette.background ?? undefined }}
             >
                 <div className="chromotomeColourBoxes">
                     {palette.colors.map((colourHex, ix) => (
-                        <Colour
+                        <ChromotomeColourView
                             key={ix}
                             colourHex={colourHex}
                             stroke={palette.stroke}
@@ -35,19 +35,17 @@ export function ChromotomePaletteView({
     );
 }
 
-interface ColourProps {
+interface ChromotomeColourViewProps {
     colourHex: string;
     stroke?: string;
 }
-function Colour({ colourHex, stroke }: ColourProps) {
-    // const rgbString = rgbToString(hexToRGB(colourHex));
+function ChromotomeColourView({
+    colourHex,
+    stroke,
+}: ChromotomeColourViewProps) {
     const styles = {
         background: colourHex,
         borderColor: stroke ?? undefined,
     } as React.CSSProperties;
-    return (
-        <div className="chromotomeColourBox" style={styles}>
-            {/* <span className="hex">{colourHex}</span> <span className="rgb">{rgbString}</span> */}
-        </div>
-    );
+    return <div className="chromotomeColourBox" style={styles}></div>;
 }
