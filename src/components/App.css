@@ -2,13 +2,45 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 1.5rem;
 }
+.palette,
+.chromotomePalette {
+    cursor: pointer;
+}
+
+.chromotomePalette .chromotomeColourBoxes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.2rem;
+    padding: 0 1rem;
+}
+
 .palette {
-    margin: 20px;
     border-radius: 15px;
     width: 200px;
-    cursor: pointer;
     box-shadow: 10px 10px 12px rgba(0, 0, 0, 0.5);
+}
+.chromotomePalette {
+    width: 390px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.chromotomePaletteMain {
+    align-self: stretch;
+    padding: 1rem 0.5rem;
+    box-shadow: 2px 2px 8px -2px rgba(0, 0, 0, 0.2);
+}
+
+.chromotomeColourBox {
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    border: 4px solid tomato;
+    border-color: black;
 }
 
 .colour {
