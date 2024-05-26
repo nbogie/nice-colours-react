@@ -40,10 +40,8 @@ import { ExportFormat, IPalette } from "../types";
 import { About } from "./About";
 import PossibleOpenProcessingSketchLink from "./PossibleOpenProcessingSketchLink";
 import { SocketIOHelpModal } from "./SocketIOHelpModal";
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import palettes from "nice-color-palettes/200";
+import { getAllNiceColorPalettes } from "../niceColors";
+// import { getAllChromotomePalettes } from "../chromotome";
 
 interface PalettesProps {
     isSettingsOpen: boolean;
@@ -53,7 +51,10 @@ interface PalettesProps {
 }
 
 function Palettes(props: PalettesProps) {
-    const [palettesToShow, setPalettesToShow] = useState(palettes);
+    const [palettesToShow, setPalettesToShow] = useState(
+        () => getAllNiceColorPalettes()
+        // getAllChromotomePalettes().map((p) => p.colors)
+    );
     const [exportFormat, setExportFormat] = useStateWithLocalStorage(
         "format",
         "json"
@@ -96,8 +97,8 @@ function Palettes(props: PalettesProps) {
     }, [socketioDestURL]);
 
     const handleShuffleClicked = () => {
-        setPalettesToShow(
-            [...palettes].sort(() => (Math.random() < 0.5 ? -1 : 1))
+        setPalettesToShow((prev) =>
+            [...prev].sort(() => (Math.random() < 0.5 ? -1 : 1))
         );
     };
 
