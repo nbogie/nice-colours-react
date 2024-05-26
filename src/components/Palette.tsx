@@ -12,7 +12,7 @@ export function Palette({ palette, handleOnClick }: PaletteProps) {
                 handleOnClick(palette);
             }}
         >
-            {palette.map((colourHex, ix) => (
+            {palette.colors.map((colourHex, ix) => (
                 <Colour key={ix} colourHex={colourHex} />
             ))}
         </div>

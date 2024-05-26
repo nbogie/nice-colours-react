@@ -40,20 +40,20 @@ import { ExportFormat, IPalette } from "../types";
 import { About } from "./About";
 import PossibleOpenProcessingSketchLink from "./PossibleOpenProcessingSketchLink";
 import { SocketIOHelpModal } from "./SocketIOHelpModal";
-import { getAllNiceColorPalettes } from "../niceColors";
-// import { getAllChromotomePalettes } from "../chromotome";
+import { getAllNiceColourPalettes } from "../niceColors";
+import { getAllChromotomePalettes } from "../chromotome";
 
-interface PalettesProps {
+interface PalettesViewProps {
     isSettingsOpen: boolean;
     onOpenSettings: () => void;
     onCloseSettings: () => void;
     btnRef: React.MutableRefObject<HTMLButtonElement | null>;
 }
 
-function Palettes(props: PalettesProps) {
-    const [palettesToShow, setPalettesToShow] = useState(
-        () => getAllNiceColorPalettes()
-        // getAllChromotomePalettes().map((p) => p.colors)
+function PalettesView(props: PalettesViewProps) {
+    const [palettesToShow, setPalettesToShow] = useState<IPalette[]>(
+        () => getAllNiceColourPalettes()
+        // () => getAllChromotomePalettes()
     );
     const [exportFormat, setExportFormat] = useStateWithLocalStorage(
         "format",
@@ -101,6 +101,12 @@ function Palettes(props: PalettesProps) {
             [...prev].sort(() => (Math.random() < 0.5 ? -1 : 1))
         );
     };
+    function handleChooseNice() {
+        setPalettesToShow(getAllNiceColourPalettes());
+    }
+    function handleChooseChromotome() {
+        setPalettesToShow(getAllChromotomePalettes());
+    }
 
     const handlePaletteClicked = (palette: IPalette) => {
         copyAndNotify(palette, exportFormat as ExportFormat);
@@ -108,7 +114,7 @@ function Palettes(props: PalettesProps) {
             socket.emit("palette_chosen", palette);
         }
     };
-
+    const showingChromotomePalettes = palettesToShow[0].type === "chromotome";
     const socketIOHelpDisclosure = useDisclosure();
 
     return (
@@ -124,9 +130,25 @@ function Palettes(props: PalettesProps) {
                     </Button>
                     )
                 </Text>
-                <Button onClick={handleShuffleClicked} variant="solid">
-                    Shuffle!
-                </Button>
+                <HStack>
+                    <Button onClick={handleShuffleClicked} variant="solid">
+                        Shuffle!
+                    </Button>
+                    <Button
+                        onClick={handleChooseNice}
+                        variant="solid"
+                        isActive={!showingChromotomePalettes}
+                    >
+                        ColorLovers
+                    </Button>
+                    <Button
+                        onClick={handleChooseChromotome}
+                        variant="solid"
+                        isActive={showingChromotomePalettes}
+                    >
+                        Chromotome
+                    </Button>
+                </HStack>
                 <div className="palettes">
                     {palettesToShow.map((p: IPalette, ix: number) => (
                         <Palette
@@ -264,8 +286,8 @@ function toastStyleForPalette(palette: IPalette) {
 }
 
 function paletteToHardGradient(palette: IPalette) {
-    const stepSize = 100 / palette.length;
-    return palette
+    const stepSize = 100 / palette.colors.length;
+    return palette.colors
         .map((hex: string, i: number) => [
             `${hex} ${(i + 0) * stepSize}%`,
             `${hex} ${(i + 1) * stepSize}%`,
@@ -274,4 +296,4 @@ function paletteToHardGradient(palette: IPalette) {
         .join(", ");
 }
 
-export default Palettes;
+export default PalettesView;

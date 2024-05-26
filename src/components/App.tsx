@@ -10,7 +10,7 @@ import {
 import React from "react";
 import "./App.css";
 import SmallCenteredFooter from "./Footer";
-import Palettes from "./Palettes";
+import PalettesView from "./PalettesView";
 
 function App() {
     //This is just for focus when the drawer closes.
@@ -33,7 +33,7 @@ function App() {
                 />
             </Flex>
             <VStack>
-                <Palettes
+                <PalettesView
                     btnRef={btnRef}
                     isSettingsOpen={isOpen}
                     onOpenSettings={onOpen}
