@@ -41,7 +41,9 @@ import { About } from "./About";
 import PossibleOpenProcessingSketchLink from "./PossibleOpenProcessingSketchLink";
 import { SocketIOHelpModal } from "./SocketIOHelpModal";
 
-const palettes = require("nice-color-palettes/200");
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-expect-error
+import palettes from "nice-color-palettes/200";
 
 interface PalettesProps {
     isSettingsOpen: boolean;
@@ -95,7 +97,7 @@ function Palettes(props: PalettesProps) {
 
     const handleShuffleClicked = () => {
         setPalettesToShow(
-            [...palettes].sort((a, b) => (Math.random() < 0.5 ? -1 : 1))
+            [...palettes].sort(() => (Math.random() < 0.5 ? -1 : 1))
         );
     };
 
@@ -234,6 +236,7 @@ function copyPaletteToClipboard(palette: IPalette, format: ExportFormat) {
     navigator.clipboard.writeText(text);
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function copyAndNotify(palette: IPalette, exportFormat: ExportFormat) {
     copyPaletteToClipboard(palette, exportFormat);
 

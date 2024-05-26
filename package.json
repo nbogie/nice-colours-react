@@ -1,51 +1,40 @@
 {
-  "name": "nice-colours-react-ts",
-  "version": "0.2.0",
-  "private": true,
-  "dependencies": {
-    "@chakra-ui/icons": "^2.0.10",
-    "@chakra-ui/react": "2.3.2",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.13",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "framer-motion": "^7.5.1",
-    "nice-color-palettes": "^3.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "react-toastify": "^9.0.8",
-    "socket.io-client": "^4.5.2",
-    "typescript": "^4.8.4",
-    "web-vitals": "^2.1.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "nice-colours-quicker-vite",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@chakra-ui/icons": "^2.0.10",
+        "@chakra-ui/react": "2.8.2",
+        "@emotion/react": "^11.10.4",
+        "@emotion/styled": "^11.10.4",
+        "@testing-library/jest-dom": "^6.4.5",
+        "@testing-library/react": "^15.0.7",
+        "@testing-library/user-event": "^14.5.2",
+        "@types/react": "^18.2.66",
+        "@types/react-dom": "^18.2.22",
+        "@typescript-eslint/eslint-plugin": "^7.2.0",
+        "@typescript-eslint/parser": "^7.2.0",
+        "@vitejs/plugin-react": "^4.2.1",
+        "eslint": "^8.57.0",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.6",
+        "framer-motion": "^11.2.6",
+        "nice-color-palettes": "^3.0.0",
+        "prettier": "^3.2.5",
+        "react-toastify": "^10.0.5",
+        "socket.io-client": "^4.5.2",
+        "typescript": "^5.2.2",
+        "vite": "^5.2.0"
+    }
 }
