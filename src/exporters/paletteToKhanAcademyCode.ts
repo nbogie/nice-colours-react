@@ -12,7 +12,7 @@ export function paletteToKhanAcademyCode(palette: IPalette) {
     }
     return (
         "var palette = [ \n" +
-        palette.map(hexCodeToRGBColorCall).join(",\n") +
+        palette.colors.map(hexCodeToRGBColorCall).join(",\n") +
         "\n ];"
     );
 }

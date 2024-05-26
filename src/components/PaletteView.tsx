@@ -1,10 +1,10 @@
 import { IPalette } from "../types";
 
-interface PaletteProps {
+interface PaletteViewProps {
     palette: IPalette;
     handleOnClick: (pal: IPalette) => void;
 }
-export function Palette({ palette, handleOnClick }: PaletteProps) {
+export function PaletteView({ palette, handleOnClick }: PaletteViewProps) {
     return (
         <div
             className="palette"

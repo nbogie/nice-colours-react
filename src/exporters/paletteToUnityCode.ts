@@ -13,7 +13,7 @@ export function paletteToUnityCode(palette: IPalette) {
     }
     return (
         "Color[] palette = new Color[] { \n" +
-        palette.map(hexCodeToRGBColorCall).join(",\n") +
+        palette.colors.map(hexCodeToRGBColorCall).join(",\n") +
         "\n };"
     );
 }

@@ -4,7 +4,7 @@ export function paletteToCSSVars(palette: IPalette) {
         return `--pal-${ix + 1}: ${hexCode};`;
     }
 
-    const lines = palette
+    const lines = palette.colors
         .map((hexCode, ix) => hexCodeToCSSVar(hexCode, ix))
         .join("\n");
     return `:root {\n${lines}\n}\n`;

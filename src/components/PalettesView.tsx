@@ -26,7 +26,7 @@ import {
 } from "@chakra-ui/react";
 
 import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage";
-import { Palette } from "./Palette";
+import { PaletteView } from "./PaletteView";
 
 import { paletteToCSSVars } from "../exporters/paletteToCSSVars";
 import { paletteToJSON } from "../exporters/paletteToJSON";
@@ -42,6 +42,7 @@ import PossibleOpenProcessingSketchLink from "./PossibleOpenProcessingSketchLink
 import { SocketIOHelpModal } from "./SocketIOHelpModal";
 import { getAllNiceColourPalettes } from "../niceColors";
 import { getAllChromotomePalettes } from "../chromotome";
+import { ChromotomePaletteView } from "./ChromotomePaletteView";
 
 interface PalettesViewProps {
     isSettingsOpen: boolean;
@@ -111,7 +112,7 @@ function PalettesView(props: PalettesViewProps) {
     const handlePaletteClicked = (palette: IPalette) => {
         copyAndNotify(palette, exportFormat as ExportFormat);
         if (socket && socket.connected) {
-            socket.emit("palette_chosen", palette);
+            socket.emit("palette_chosen", palette.colors);
         }
     };
     const showingChromotomePalettes = palettesToShow[0].type === "chromotome";
@@ -150,13 +151,21 @@ function PalettesView(props: PalettesViewProps) {
                     </Button>
                 </HStack>
                 <div className="palettes">
-                    {palettesToShow.map((p: IPalette, ix: number) => (
-                        <Palette
-                            key={ix}
-                            palette={p}
-                            handleOnClick={handlePaletteClicked}
-                        />
-                    ))}
+                    {palettesToShow.map((p: IPalette, ix: number) =>
+                        p.type === "chromotome" ? (
+                            <ChromotomePaletteView
+                                key={ix}
+                                palette={p}
+                                handleOnClick={handlePaletteClicked}
+                            />
+                        ) : (
+                            <PaletteView
+                                key={ix}
+                                palette={p}
+                                handleOnClick={handlePaletteClicked}
+                            />
+                        )
+                    )}
                 </div>
             </VStack>
             <Drawer
