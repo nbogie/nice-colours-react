@@ -10,10 +10,6 @@
         "preview": "vite preview",
         "format": "prettier --write ."
     },
-    "dependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
-    },
     "devDependencies": {
         "@chakra-ui/icons": "^2.0.10",
         "@chakra-ui/react": "2.8.2",
@@ -29,11 +25,13 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.6",
         "framer-motion": "^11.2.6",
-        "nice-color-palettes": "^3.0.0",
-        "prettier": "^3.2.5",
+        "nice-color-palettes": "^4.0.0",
+        "prettier": "^3.8.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "react-toastify": "^10.0.5",
         "socket.io-client": "^4.5.2",
-        "typescript": "^5.2.2",
-        "vite": "^5.2.0"
+        "typescript": "^5.9.3",
+        "vite": "^7.3.1"
     }
 }
