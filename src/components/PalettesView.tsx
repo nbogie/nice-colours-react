@@ -32,6 +32,7 @@ import { paletteToCSSVars } from "../exporters/paletteToCSSVars";
 import { paletteToJSON } from "../exporters/paletteToJSON";
 import { paletteToKhanAcademyCode } from "../exporters/paletteToKhanAcademyCode";
 import { paletteToUnityCode } from "../exporters/paletteToUnityCode";
+import { paletteToP5StrandsVars } from "../exporters/paletteToP5StrandsVars";
 import {
     buildOpenProcessingSocketIODest,
     tryToExtractSketchNumberFromLocationHash,
@@ -205,6 +206,9 @@ function PalettesView(props: PalettesViewProps) {
                                         <Radio value={"cssVars"}>
                                             CSS variables
                                         </Radio>
+                                        <Radio value={"strands"}>
+                                            p5.Strands variables
+                                        </Radio>
                                         <Radio value={"unity"}>
                                             Array of color(r,g,b) (Unity)
                                         </Radio>
@@ -258,13 +262,19 @@ function copyPaletteToClipboard(palette: IPalette, format: ExportFormat) {
         case "unity":
             text = paletteToUnityCode(palette);
             break;
+        case "strands":
+            text = paletteToP5StrandsVars(palette);
+            break;
         case "cssVars":
             text = paletteToCSSVars(palette);
             break;
         default:
             throw new Error("unrecognised export format: " + format);
     }
-
+    if (!text) {
+        console.error("no text to copy to console!");
+        return;
+    }
     navigator.clipboard.writeText(text);
 }
 

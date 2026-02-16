@@ -1,6 +1,6 @@
 # What is it
 
-A UI which presents nice palettes and prioritises ease of transfer to clipboard for use in creative coding (e.g. into a p5.js sketch, or C# script for Unity).
+A UI which presents nice palettes and prioritises ease of transfer to clipboard for use in creative coding (e.g. into a p5.js sketch (as normal array of hex strings or for p5.Strands vec4 variables), or css stylesheet, or C# script for Unity).
 
 The palettes are top palettes from ColourLovers, via Matt Deslauriers' `nice-color-palettes` npm package.
 
